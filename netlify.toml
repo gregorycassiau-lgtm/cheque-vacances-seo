@@ -1,0 +1,14 @@
+# Configuration Netlify — régénère data.json, netlinking.json et audit.json au déploiement
+# depuis data/semrush_export.csv, data/netlinking/*.csv et data/audit/snapshot.json.
+[build]
+  publish = "."
+  command = "python3 scripts/build_from_csv.py && python3 scripts/build_netlinking.py && python3 scripts/build_audit.py"
+
+[build.environment]
+  SEO_PROJECT = "Cheque-vacances.com"
+  SEO_DOMAIN = "cheque-vacances.com"
+
+[[headers]]
+  for = "/data.json"
+  [headers.values]
+    Cache-Control = "public, max-age=300, must-revalidate"

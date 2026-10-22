@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cockpit SEO</title>
+<style>
+  :root{--bg:#f5f7fa;--card:#fff;--ink:#1a2332;--muted:#6b7688;--line:#e4e8ef;
+    --brand:#0a5ad4;--brand-soft:#e8f0fd;--up:#1a9e5f;--down:#d9433f;--flat:#8a94a6;
+    --b1:#1a9e5f;--b2:#5bc07a;--b3:#e0a52e;--b4:#e0762e;--b5:#d9433f;--b6:#b8bec9;
+    --err:#d9433f;--warn:#e0a52e;--notice:#6b7688;}
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);font-size:14px;}
+  header{background:linear-gradient(120deg,#0a5ad4,#0846a6);color:#fff;padding:22px 30px;}
+  header h1{margin:0 0 4px;font-size:20px;font-weight:700;}
+  header .sub{font-size:13px;opacity:.85;}
+  .wrap{max-width:1320px;margin:0 auto;padding:18px 24px 60px;}
+  .tabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap;}
+  .tab{padding:9px 16px;border:1px solid var(--line);background:#fff;border-radius:9px;cursor:pointer;font-weight:600;color:var(--muted);}
+  .tab.active{background:var(--brand);color:#fff;border-color:var(--brand);}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:18px;}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;}
+  .kpi .lbl{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+  .kpi .val{font-size:22px;font-weight:700;margin-top:6px;}
+  .kpi .val.g{color:var(--up);} .kpi .val.r{color:var(--down);}
+  .note{background:#fff8e6;border:1px solid #f0d98a;color:#7a5b12;border-radius:10px;padding:11px 15px;font-size:13px;margin-bottom:16px;}
+  .note.ok{background:#eaf7ef;border-color:#a9dcbd;color:#1a6e42;}
+  .note.warn{background:#fdeceb;border-color:#f0b3ae;color:#8a2b25;}
+  .controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:14px;}
+  .controls input,.controls select{padding:9px 12px;border:1px solid var(--line);border-radius:9px;font-size:14px;background:#fff;color:var(--ink);}
+  .controls input[type=search]{flex:1;min-width:200px;}
+  .controls .grp{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);}
+  .btn{background:var(--brand);color:#fff;border:none;padding:9px 16px;border-radius:9px;cursor:pointer;font-size:14px;font-weight:600;}
+  .btn.ghost{background:#fff;color:var(--brand);border:1px solid var(--brand);}
+  .activefilter{display:none;align-items:center;gap:8px;background:var(--brand-soft);color:var(--brand);border:1px solid #bcd4f7;border-radius:8px;padding:6px 10px;font-size:13px;font-weight:600;margin-bottom:12px;}
+  .activefilter .x{cursor:pointer;font-weight:700;}
+  .count{font-size:13px;color:var(--muted);margin-bottom:8px;}
+  .tablewrap{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:auto;}
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th,td{padding:10px 13px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap;}
+  th{position:sticky;top:0;background:#fafbfd;font-weight:600;cursor:pointer;user-select:none;z-index:1;}
+  th.nos{cursor:default;}
+  th:hover{color:var(--brand);} th .arrow{font-size:10px;opacity:.5;}
+  td.kw{white-space:normal;max-width:280px;font-weight:600;}
+  td.url a,a.u{color:var(--brand);text-decoration:none;font-size:12px;} td.url a:hover{text-decoration:underline;}
+  td.num{text-align:right;font-variant-numeric:tabular-nums;}
+  .pos{display:inline-block;min-width:26px;text-align:center;padding:2px 7px;border-radius:6px;font-weight:700;background:var(--brand-soft);color:var(--brand);}
+  .pos.top3{background:#e5f6ec;color:var(--up);} .pos.na{background:#f0f1f4;color:var(--muted);}
+  .kd{display:inline-block;min-width:34px;text-align:center;padding:2px 7px;border-radius:6px;font-weight:600;}
+  .kd.easy{background:#e5f6ec;color:var(--up);} .kd.med{background:#fff4e0;color:#c07a12;} .kd.hard{background:#fdeceb;color:var(--down);} .kd.na{background:#f0f1f4;color:var(--muted);}
+  .evo{font-weight:700;} .evo.up{color:var(--up);} .evo.down{color:var(--down);} .evo.flat{color:var(--flat);}
+  .chip{font-size:11px;padding:2px 8px;border-radius:20px;background:#eef1f6;color:var(--muted);white-space:nowrap;}
+  td.tags{white-space:normal;max-width:190px;}
+  .tag{display:inline-block;font-size:10.5px;padding:1px 7px;border-radius:5px;background:#eef4ff;color:#3a5a8c;margin:1px 2px 1px 0;}
+  tr:hover td{background:#f9fbff;}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;}
+  .panel.full{grid-column:1/-1;}
+  .panel h3{margin:0 0 14px;font-size:15px;} .panel h3 small{font-weight:400;color:var(--muted);font-size:12px;}
+  .donutwrap{display:flex;align-items:center;gap:22px;flex-wrap:wrap;}
+  .donut{width:150px;height:150px;border-radius:50%;flex:0 0 auto;position:relative;}
+  .donut::after{content:"";position:absolute;inset:26px;background:var(--card);border-radius:50%;}
+  .donut .center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1;}
+  .donut .center b{font-size:26px;} .donut .center span{font-size:11px;color:var(--muted);}
+  .legend{display:flex;flex-direction:column;gap:7px;font-size:13px;}
+  .legend .row{display:flex;align-items:center;gap:8px;cursor:pointer;} .legend .row:hover{color:var(--brand);}
+  .legend .sw{width:12px;height:12px;border-radius:3px;flex:0 0 auto;} .legend .n{margin-left:auto;font-variant-numeric:tabular-nums;font-weight:600;}
+  .bars{display:flex;flex-direction:column;gap:9px;}
+  .bar{display:grid;grid-template-columns:160px 1fr 52px;align-items:center;gap:10px;font-size:13px;}
+  .bar .track{background:#eef1f6;border-radius:6px;height:16px;overflow:hidden;} .bar .fill{height:100%;border-radius:6px;background:var(--brand);}
+  .bar .v{text-align:right;font-variant-numeric:tabular-nums;color:var(--muted);} .bar .lab{cursor:pointer;} .bar .lab:hover{color:var(--brand);}
+  .qwtable{width:100%;border-collapse:collapse;font-size:13px;}
+  .qwtable th,.qwtable td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap;}
+  .qwtable td.n{text-align:right;font-variant-numeric:tabular-nums;} .qwtable a{color:var(--brand);text-decoration:none;font-size:12px;}
+  .scroll{max-height:360px;overflow:auto;}
+  .reco{font-size:11.5px;padding:2px 8px;border-radius:20px;font-weight:600;white-space:nowrap;}
+  .reco.link{background:#fdeceb;color:#b5372f;} .reco.mix{background:#fff4e0;color:#a9761a;} .reco.content{background:#e8f0fd;color:#0a5ad4;}
+  .check{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:13px;border-bottom:1px solid var(--line);}
+  .check .ic{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;flex:0 0 auto;}
+  .check .ic.ok{background:var(--up);} .check .ic.ko{background:var(--down);}
+  .check .n{margin-left:auto;font-weight:600;font-variant-numeric:tabular-nums;}
+  .sev{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;}
+  .sev.error{background:var(--err);} .sev.warning{background:var(--warn);} .sev.notice{background:var(--notice);}
+  .spark{display:flex;align-items:flex-end;gap:3px;height:60px;}
+  .spark .b{flex:1;background:var(--brand-soft);border-radius:3px 3px 0 0;min-height:3px;}
+  .spark .b.last{background:var(--brand);}
+  .trendmeta{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:6px;}
+  footer{text-align:center;color:var(--muted);font-size:12px;margin-top:22px;}
+  @media (max-width:900px){.grid,.grid3{grid-template-columns:1fr;} td.tags,th.tags{display:none;}}
+  @media (max-width:720px){td.url,th.url,td.intent,th.intent,td.type,th.type{display:none;} .bar{grid-template-columns:110px 1fr 44px;}}
+</style>
+</head>
+<body>
+<header>
+  <h1 id="h1">Cockpit SEO</h1>
+  <div class="sub" id="sub">Suivi de position · Netlinking · Maillage · Semrush · Google France</div>
+</header>
+<div class="wrap">
+  <div class="tabs">
+    <div class="tab active" data-v="table" id="tab-table">Mots-clés</div>
+    <div class="tab" data-v="stats" id="tab-stats">Statistiques</div>
+    <div class="tab" data-v="prio" id="tab-prio">🎯 Priorités</div>
+    <div class="tab" data-v="net" id="tab-net">Netlinking</div>
+    <div class="tab" data-v="mail" id="tab-mail">Maillage &amp; technique</div>
+  </div>
+
+  <div class="kpis" id="kpis"></div>
+  <div class="note" id="note" style="display:none"></div>
+
+  <!-- MOTS-CLES -->
+  <div id="view-table">
+    <div class="controls">
+      <input type="search" id="q" placeholder="Rechercher (mot-clé, tag, URL)…">
+      <span class="grp">Tag <select id="ftag"><option value="">Tous</option></select></span>
+      <span class="grp">Statut <select id="fstatus"><option value="all">Tous</option><option value="ranked">Positionnés</option><option value="notranked">Non positionnés</option></select></span>
+      <span class="grp">Position &le; <select id="fpos"><option value="0">Toutes</option><option value="3">Top 3</option><option value="10">Top 10</option><option value="20">Top 20</option></select></span>
+      <span class="grp">KD &le; <select id="fkd"><option value="0">Toutes</option><option value="30">30</option><option value="50">50</option><option value="70">70</option></select></span>
+      <span class="grp">Vol. min <input type="number" id="fvol" value="0" min="0" style="width:84px"></span>
+      <button class="btn ghost" id="export">Exporter CSV</button>
+    </div>
+    <div class="activefilter" id="activefilter"></div>
+    <div class="count" id="count"></div>
+    <div class="tablewrap"><table><thead><tr id="head"></tr></thead><tbody id="body"></tbody></table></div>
+  </div>
+
+  <!-- STATS -->
+  <div id="view-stats" style="display:none">
+    <div class="controls" style="margin-bottom:16px">
+      <span class="grp">Filtrer par tag <select id="ftag2"><option value="">Tous les tags</option></select></span>
+      <span class="count" id="statscount" style="margin:0"></span>
+    </div>
+    <div class="grid">
+      <div class="panel"><h3>Répartition des positions <small>(cliquez pour filtrer)</small></h3>
+        <div class="donutwrap"><div class="donut" id="donut"><div class="center"><b id="donutN">0</b><span>positionnés</span></div></div><div class="legend" id="legend"></div></div></div>
+      <div class="panel"><h3>Détail par tranche</h3><div class="bars" id="bucketbars"></div></div>
+      <div class="panel"><h3>🎯 Quick wins — Top 11-20 <small>(triés par volume)</small></h3><div class="scroll"><table class="qwtable" id="qw"></table></div></div>
+      <div class="panel"><h3>Pages hub <small>(mots-clés portés par page)</small></h3><div class="scroll"><table class="qwtable" id="hub"></table></div></div>
+      <div class="panel"><h3>SERP features gagnées</h3><div class="bars" id="serpbars"></div>
+        <div class="scroll" style="margin-top:12px"><table class="qwtable" id="fsn"></table></div></div>
+      <div class="panel"><h3>Répartition par intention</h3><div class="bars" id="intentbars"></div></div>
+      <div class="panel"><h3>Top tags</h3><div class="bars" id="tagbars"></div></div>
+    </div>
+  </div>
+
+  <!-- PRIORITES -->
+  <div id="view-prio" style="display:none">
+    <div class="note">Croisement <b>position × volume × profil de liens de la page</b>. Objectif : identifier où agir en premier. Les mots-clés en <b>position 11-20</b> (à un pas de la 1ʳᵉ page) sont priorisés, avec le nb de backlinks de leur page pour orienter l'action (netlinking vs contenu).</div>
+    <div class="controls">
+      <span class="grp">Tranche <select id="pband"><option value="all">4-20 (toutes)</option><option value="1120">11-20</option><option value="410">4-10</option></select></span>
+      <span class="grp">Reco <select id="preco"><option value="">Toutes</option><option value="link">Netlinking</option><option value="mix">Netlinking + on-page</option><option value="content">Contenu/on-page</option></select></span>
+      <button class="btn ghost" id="exportPrio">Exporter CSV</button>
+      <span class="count" id="priocount" style="margin:0"></span>
+    </div>
+    <div class="tablewrap"><table><thead><tr id="priohead"></tr></thead><tbody id="priobody"></tbody></table></div>
+  </div>
+
+  <!-- NETLINKING -->
+  <div id="view-net" style="display:none">
+    <div class="kpis" id="netkpis"></div>
+    <div class="note warn" id="toxicnote" style="display:none"></div>
+    <div class="grid">
+      <div class="panel"><h3>Tendance backlinks <small id="netdomlbl1">(15 mois)</small></h3>
+        <div class="spark" id="sparkBl"></div><div class="trendmeta" id="sparkBlMeta"></div>
+        <h3 style="margin-top:18px">Domaines référents <small id="netdomlbl2"></small></h3>
+        <div class="spark" id="sparkRd"></div><div class="trendmeta" id="sparkRdMeta"></div></div>
+      <div class="panel"><h3>Top domaines référents <small>(par autorité)</small></h3>
+        <div class="scroll"><table class="qwtable" id="refd"></table></div></div>
+      <div class="panel full"><h3>Ancres de liens <small>(les plus fréquentes)</small></h3>
+        <div class="scroll"><table class="qwtable" id="anchors"></table></div></div>
+    </div>
+  </div>
+
+  <!-- MAILLAGE -->
+  <div id="view-mail" style="display:none">
+    <div class="kpis" id="mailkpis"></div>
+    <div class="note ok" id="mailok"></div>
+    <div class="grid">
+      <div class="panel"><h3>Maillage interne — contrôles <small>(vert = sain)</small></h3><div id="checks"></div></div>
+      <div class="panel"><h3>Problèmes on-page / technique <small>(à traiter)</small></h3><div class="bars" id="issuebars"></div></div>
+      <div class="panel full"><h3>⚠️ Pages en erreur 4xx <small>(fiches partenaires cassées — rediriger / nettoyer les liens internes)</small></h3>
+        <div class="scroll"><table class="qwtable" id="fourxx"></table></div></div>
+    </div>
+  </div>
+
+  <footer id="foot">Cockpit SEO. Sources : Suivi de position, Backlink Analytics et Site Audit Semrush (Google France).</footer>
+</div>
+
+<script>
+let DATA=[],NL={},AU={},PAGEBL={},PROJECT_SLUG="cockpit";
+let view="table",rangeFilter=null,sortKey="vol",sortDir=-1;
+let pSortKey="score",pSortDir=-1;
+const cols=[
+  {key:"kw",label:"Mot-clé",type:"str"},{key:"vol",label:"Volume",type:"num"},{key:"kd",label:"KD %",type:"num"},
+  {key:"intent",label:"Intention",type:"str"},{key:"pos",label:"Position",type:"num"},{key:"diff",label:"Évolution",type:"num"},
+  {key:"type",label:"Type SERP",type:"str"},{key:"tags",label:"Tags",type:"str"},{key:"url",label:"URL positionnée",type:"str"},
+];
+const pcols=[
+  {key:"kw",label:"Mot-clé",type:"str"},{key:"pos",label:"Position",type:"num"},{key:"vol",label:"Volume",type:"num"},
+  {key:"kd",label:"KD",type:"num"},{key:"bl",label:"Backlinks page",type:"num"},{key:"rd",label:"Dom. réf.",type:"num"},
+  {key:"score",label:"Score",type:"num"},{key:"reco",label:"Reco",type:"str"},{key:"url",label:"URL",type:"str"},
+];
+const BUCKETS=[
+  {key:"t3",label:"Top 3",min:1,max:3,color:"var(--b1)"},{key:"t10",label:"Top 4-10",min:4,max:10,color:"var(--b2)"},
+  {key:"t20",label:"Top 11-20",min:11,max:20,color:"var(--b3)"},{key:"t50",label:"Top 21-50",min:21,max:50,color:"var(--b4)"},
+  {key:"t100",label:"Top 51-100",min:51,max:100,color:"var(--b5)"},{key:"na",label:"Hors top 100",min:null,max:null,color:"var(--b6)"},
+];
+const fmt=n=>n==null?"—":n.toLocaleString("fr-FR");
+const kdClass=k=>k==null?"na":(k<=30?"easy":(k<=50?"med":"hard"));
+const g=id=>document.getElementById(id);
+const tagList=r=>(r.tags||"").split("|").map(t=>t.trim()).filter(Boolean);
+const normUrl=u=>(u||"").replace(/^https?:\/\//,"").split("?")[0].replace(/\/$/,"").toLowerCase();
+function evoCell(d){if(d==null)return '<span class="evo flat">—</span>';if(d>0)return `<span class="evo up">▲ ${d}</span>`;if(d<0)return `<span class="evo down">▼ ${Math.abs(d)}</span>`;return '<span class="evo flat">–</span>';}
+function shortUrl(u){return u?u.replace(/^https?:\/\//,"").replace(/\/$/,""):"—";}
+function pageBL(u){return PAGEBL[normUrl(u)]||{bl:0,rd:0};}
+
+/* ---------- MOTS-CLES ---------- */
+function filtered(){
+  const q=g("q").value.toLowerCase().trim(),tag=g("ftag").value,st=g("fstatus").value,fpos=+g("fpos").value,fkd=+g("fkd").value,fvol=+g("fvol").value||0;
+  return DATA.filter(r=>{
+    if(rangeFilter){if(rangeFilter.min==null){if(r.pos!=null)return false;}else if(r.pos==null||r.pos<rangeFilter.min||r.pos>rangeFilter.max)return false;}
+    if(tag&&!tagList(r).includes(tag))return false;
+    if(st==="ranked"&&r.pos==null)return false; if(st==="notranked"&&r.pos!=null)return false;
+    if(fpos&&(r.pos==null||r.pos>fpos))return false; if(fkd&&(r.kd==null||r.kd>fkd))return false;
+    if(r.vol<fvol)return false;
+    if(q&&!((r.kw+" "+(r.tags||"")+" "+(r.url||"")).toLowerCase().includes(q)))return false;
+    return true;});
+}
+function sortRows(rows,key,dir,list){
+  const c=list.find(c=>c.key===key)||{type:"num"};
+  return rows.slice().sort((a,b)=>{let x=a[key],y=b[key];if(x==null)x=c.type==="num"?1e12:"";if(y==null)y=c.type==="num"?1e12:"";
+    if(c.type==="num")return (x-y)*dir;return (""+x).localeCompare(""+y,"fr")*dir;});
+}
+function renderHead(){
+  g("head").innerHTML=cols.map(c=>{const a=c.key===sortKey?(sortDir<0?"▼":"▲"):"";
+    const cl=(c.key==="url"?"url":"")+(c.key==="intent"?" intent":"")+(c.key==="tags"?" tags":"")+(c.key==="type"?" type":"");
+    return `<th data-k="${c.key}" class="${cl}">${c.label} <span class="arrow">${a}</span></th>`;}).join("");
+  document.querySelectorAll("#head th").forEach(th=>{th.onclick=()=>{const k=th.dataset.k;if(sortKey===k)sortDir*=-1;else{sortKey=k;sortDir=(k==="kw"||k==="url"||k==="intent"||k==="tags"||k==="type")?1:-1;}renderTable();};});
+}
+function renderTable(){
+  renderHead();const rows=sortRows(filtered(),sortKey,sortDir,cols);
+  g("body").innerHTML=rows.map(r=>`<tr><td class="kw">${r.kw}</td><td class="num">${fmt(r.vol)}</td>
+    <td class="num">${r.kd==null?'<span class="kd na">n/d</span>':`<span class="kd ${kdClass(r.kd)}">${r.kd}</span>`}</td>
+    <td class="intent">${r.intent?`<span class="chip">${r.intent}</span>`:"—"}</td>
+    <td class="num">${r.pos==null?'<span class="pos na">n/p</span>':`<span class="pos ${r.pos<=3?'top3':''}">${r.pos}</span>`}</td>
+    <td class="num">${evoCell(r.diff)}</td><td class="type">${r.type?`<span class="chip">${r.type}</span>`:"—"}</td>
+    <td class="tags">${tagList(r).map(t=>`<span class="tag">${t}</span>`).join(" ")||"—"}</td>
+    <td class="url">${r.url?`<a href="${r.url}" target="_blank" rel="noopener">${shortUrl(r.url)}</a>`:"—"}</td></tr>`).join("");
+  g("count").textContent=`${rows.length} mot(s)-clé(s) sur ${DATA.length}`;
+  const af=g("activefilter");
+  if(rangeFilter){af.style.display="flex";af.innerHTML=`Filtre position : <b>${rangeFilter.label}</b> <span class="x" id="clrRange">✕ effacer</span>`;g("clrRange").onclick=()=>{rangeFilter=null;renderTable();};}
+  else af.style.display="none";
+  renderKpis(filtered());
+}
+function renderKpis(rows){
+  const ranked=rows.filter(r=>r.pos!=null),t3=ranked.filter(r=>r.pos<=3).length,t10=ranked.filter(r=>r.pos<=10).length,
+    t1120=ranked.filter(r=>r.pos>=11&&r.pos<=20).length,vol=rows.reduce((s,r)=>s+r.vol,0),
+    avg=ranked.length?(ranked.reduce((s,r)=>s+r.pos,0)/ranked.length):null;
+  const k=[["Mots-clés",fmt(rows.length)],["Positionnés",fmt(ranked.length)],["Top 3",fmt(t3)],["Top 10",fmt(t10)],["Top 11-20",fmt(t1120)],["Pos. moy.",avg==null?"—":avg.toFixed(1)],["Volume cumulé",fmt(vol)]];
+  g("kpis").innerHTML=k.map(([l,v])=>`<div class="kpi"><div class="lbl">${l}</div><div class="val">${v}</div></div>`).join("");
+}
+function exportRows(rows,headArr,mapFn,name){
+  const lines=[headArr.join(";")].concat(rows.map(r=>mapFn(r).map(v=>`"${(""+v).replace(/"/g,'""')}"`).join(";")));
+  const blob=new Blob(["﻿"+lines.join("\n")],{type:"text/csv;charset=utf-8"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();
+}
+
+/* ---------- STATS ---------- */
+function statsRows(){const tag=g("ftag2").value;return tag?DATA.filter(r=>tagList(r).includes(tag)):DATA.slice();}
+function bucketOf(pos){if(pos==null)return "na";for(const b of BUCKETS){if(b.min!=null&&pos>=b.min&&pos<=b.max)return b.key;}return "na";}
+function qwTable(id,rows,extraCol){
+  rows=rows.slice().sort((a,b)=>b.vol-a.vol);
+  const head=`<tr><th>Mot-clé</th><th>Pos.</th><th style="text-align:right">Volume</th><th>URL</th></tr>`;
+  const body=rows.map(r=>`<tr><td>${r.kw}</td><td><span class="pos ${r.pos<=3?'top3':''}">${r.pos}</span></td><td class="n">${fmt(r.vol)}</td>
+    <td>${r.url?`<a href="${r.url}" target="_blank" rel="noopener">${shortUrl(r.url).slice(0,34)}</a>`:"—"}</td></tr>`).join("");
+  g(id).innerHTML=head+(body||`<tr><td colspan="4" style="color:var(--muted)">Aucun.</td></tr>`);
+}
+function barPanel(id,map,color,limit){
+  let items=Object.entries(map).sort((a,b)=>b[1]-a[1]);if(limit)items=items.slice(0,limit);
+  const max=Math.max(1,...items.map(x=>x[1]));
+  g(id).innerHTML=items.map(([k,n])=>`<div class="bar"><span class="lab" title="${k}">${k}</span><div class="track"><div class="fill" style="width:${n/max*100}%;background:${color}"></div></div><span class="v">${fmt(n)}</span></div>`).join("")||'<span style="color:var(--muted)">—</span>';
+}
+function renderStats(){
+  const rows=statsRows();g("statscount").textContent=`${rows.length} mots-clés analysés`;
+  const counts={};BUCKETS.forEach(b=>counts[b.key]=0);rows.forEach(r=>counts[bucketOf(r.pos)]++);
+  const ranked=rows.filter(r=>r.pos!=null).length;
+  let acc=0,stops=[];BUCKETS.filter(b=>b.key!=="na").forEach(b=>{const frac=ranked?counts[b.key]/ranked:0;stops.push(`${b.color} ${acc*360}deg ${(acc+frac)*360}deg`);acc+=frac;});
+  if(!ranked)stops=["var(--b6) 0deg 360deg"];
+  g("donut").style.background=`conic-gradient(${stops.join(",")})`;g("donutN").textContent=fmt(ranked);
+  g("legend").innerHTML=BUCKETS.map(b=>{const n=counts[b.key],pct=rows.length?Math.round(n/rows.length*100):0;return `<div class="row" data-b="${b.key}"><span class="sw" style="background:${b.color}"></span>${b.label}<span class="n">${fmt(n)} · ${pct}%</span></div>`;}).join("");
+  document.querySelectorAll("#legend .row").forEach(el=>el.onclick=()=>jumpBucket(el.dataset.b));
+  const max=Math.max(1,...BUCKETS.map(b=>counts[b.key]));
+  g("bucketbars").innerHTML=BUCKETS.map(b=>`<div class="bar"><span class="lab" data-b="${b.key}">${b.label}</span><div class="track"><div class="fill" style="width:${counts[b.key]/max*100}%;background:${b.color}"></div></div><span class="v">${fmt(counts[b.key])}</span></div>`).join("");
+  document.querySelectorAll("#bucketbars .lab").forEach(el=>el.onclick=()=>jumpBucket(el.dataset.b));
+  qwTable("qw",rows.filter(r=>r.pos>=11&&r.pos<=20));
+  // pages hub
+  const hub={};rows.forEach(r=>{if(r.pos!=null&&r.url){const u=r.url;hub[u]=hub[u]||{n:0,vol:0};hub[u].n++;hub[u].vol+=r.vol;}});
+  const hubArr=Object.entries(hub).sort((a,b)=>b[1].n-a[1].n).slice(0,25);
+  g("hub").innerHTML=`<tr><th>URL</th><th style="text-align:right">Mots-clés</th><th style="text-align:right">Vol. cumulé</th></tr>`+
+    hubArr.map(([u,o])=>`<tr><td><a href="${u}" target="_blank" rel="noopener">${shortUrl(u).slice(0,40)}</a></td><td class="n">${o.n}</td><td class="n">${fmt(o.vol)}</td></tr>`).join("");
+  // serp features
+  const sf={};rows.forEach(r=>{const t=r.type||"—";if(r.pos!=null){sf[t]=(sf[t]||0)+1;}});barPanel("serpbars",sf,"#6a8fd0");
+  qwTable("fsn",rows.filter(r=>/snippet/i.test(r.type||"")));
+  const im={};rows.forEach(r=>{(r.intent||"—").split(", ").forEach(x=>{x=x||"—";im[x]=(im[x]||0)+1;});});barPanel("intentbars",im,"var(--brand)");
+  const tm={};rows.forEach(r=>tagList(r).forEach(t=>tm[t]=(tm[t]||0)+1));barPanel("tagbars",tm,"#6a8fd0",12);
+}
+function jumpBucket(bkey){const b=BUCKETS.find(x=>x.key===bkey);if(!b)return;rangeFilter={min:b.min,max:b.max,label:b.label};g("fpos").value="0";g("fstatus").value="all";setView("table");renderTable();window.scrollTo({top:0,behavior:"smooth"});}
+
+/* ---------- PRIORITES ---------- */
+function prioData(){
+  const band=g("pband").value,reco=g("preco").value;
+  let rows=DATA.filter(r=>r.pos!=null&&r.pos>=4&&r.pos<=20).map(r=>{
+    const p=pageBL(r.url),posF=r.pos>=11?1.4:1.0;
+    const score=Math.round(r.vol*posF/Math.log10((p.bl||0)+20));
+    let rc,rl; if(p.bl<10){rc="Netlinking prioritaire";rl="link";}else if(p.bl<100){rc="Netlinking + on-page";rl="mix";}else{rc="Contenu / on-page";rl="content";}
+    return {kw:r.kw,pos:r.pos,vol:r.vol,kd:r.kd,bl:p.bl,rd:p.rd,url:r.url,score,reco:rc,rl};
+  });
+  if(band==="1120")rows=rows.filter(r=>r.pos>=11&&r.pos<=20);
+  if(band==="410")rows=rows.filter(r=>r.pos>=4&&r.pos<=10);
+  if(reco)rows=rows.filter(r=>r.rl===reco);
+  return rows;
+}
+function renderPrio(){
+  const rows=sortRows(prioData(),pSortKey,pSortDir,pcols);
+  g("priohead").innerHTML=pcols.map(c=>{const a=c.key===pSortKey?(pSortDir<0?"▼":"▲"):"";return `<th data-k="${c.key}">${c.label} <span class="arrow">${a}</span></th>`;}).join("");
+  document.querySelectorAll("#priohead th").forEach(th=>{th.onclick=()=>{const k=th.dataset.k;if(pSortKey===k)pSortDir*=-1;else{pSortKey=k;pSortDir=(k==="kw"||k==="url"||k==="reco")?1:-1;}renderPrio();};});
+  g("priobody").innerHTML=rows.map(r=>`<tr><td class="kw">${r.kw}</td>
+    <td class="num"><span class="pos ${r.pos<=3?'top3':''}">${r.pos}</span></td><td class="num">${fmt(r.vol)}</td>
+    <td class="num">${r.kd==null?"—":r.kd}</td><td class="num">${fmt(r.bl)}</td><td class="num">${fmt(r.rd)}</td>
+    <td class="num"><b>${fmt(r.score)}</b></td><td><span class="reco ${r.rl}">${r.reco}</span></td>
+    <td class="url">${r.url?`<a href="${r.url}" target="_blank" rel="noopener">${shortUrl(r.url).slice(0,36)}</a>`:"—"}</td></tr>`).join("");
+  g("priocount").textContent=`${rows.length} opportunités`;
+}
+
+/* ---------- NETLINKING ---------- */
+function spark(id,metaId,vals,labels){
+  const max=Math.max(...vals),min=Math.min(...vals);
+  g(id).innerHTML=vals.map((v,i)=>{const h=6+(v-min)/(max-min||1)*54;return `<div class="b ${i===vals.length-1?'last':''}" style="height:${h}px" title="${labels[i]}: ${fmt(v)}"></div>`;}).join("");
+  g(metaId).innerHTML=`<span>${labels[0]} · ${fmt(vals[0])}</span><span>${labels[vals.length-1]} · ${fmt(vals[vals.length-1])}</span>`;
+}
+function renderNet(){
+  if(!NL||!NL.overview){g('view-net').innerHTML='<div class="note">Onglet Netlinking indisponible : données backlinks absentes.</div>';return;}
+  const dom=NL.domain||Object.keys(NL.overview)[0]; const ov=NL.overview[dom]||Object.values(NL.overview)[0],pct=Math.round(ov.follow/(ov.follow+ov.nofollow)*100);
+  {const a=g("netdomlbl1"),b=g("netdomlbl2");if(a)a.textContent="("+dom+", 15 mois)";if(b)b.textContent="("+dom+")";}
+  const k=[["Authority Score",ov.ascore,""],["Backlinks",fmt(ov.backlinks),""],["Domaines réf.",fmt(ov.refdomains),""],
+    ["Liens follow",pct+"%","g"],["Backlinks toxiques",fmt(NL.toxic_backlinks),"r"]];
+  g("netkpis").innerHTML=k.map(([l,v,c])=>`<div class="kpi"><div class="lbl">${l}</div><div class="val ${c}">${v}</div></div>`).join("");
+  const toxA=NL.anchors.filter(a=>a.toxic);
+  if(toxA.length){g("toxicnote").style.display="block";g("toxicnote").innerHTML=`<b>⚠️ Ancres toxiques détectées</b> — ${toxA.length} ancres de type spam SEO (ex. « ${toxA[0].anchor.slice(0,40)}… ») cumulant ~${fmt(NL.toxic_backlinks)} backlinks. À envisager en désaveu (disavow).`;}
+  spark("sparkBl","sparkBlMeta",NL.historical.map(h=>h.backlinks),NL.historical.map(h=>h.date));
+  spark("sparkRd","sparkRdMeta",NL.historical.map(h=>h.refdomains),NL.historical.map(h=>h.date));
+  g("refd").innerHTML=`<tr><th>Domaine</th><th>AS</th><th style="text-align:right">Backlinks</th><th>Pays</th></tr>`+
+    NL.refdomains.map(d=>`<tr><td>${d.domain}</td><td><span class="kd ${d.ascore>=70?'easy':d.ascore>=40?'med':'hard'}">${d.ascore}</span></td><td class="n">${fmt(d.backlinks)}</td><td>${(d.country||"").toUpperCase()}</td></tr>`).join("");
+  g("anchors").innerHTML=`<tr><th>Ancre</th><th style="text-align:right">Domaines</th><th style="text-align:right">Backlinks</th></tr>`+
+    NL.anchors.map(a=>`<tr><td style="${a.toxic?'color:var(--down);font-weight:600':''}">${a.toxic?'⚠️ ':''}${a.anchor}</td><td class="n">${fmt(a.domains)}</td><td class="n">${fmt(a.backlinks)}</td></tr>`).join("");
+}
+
+/* ---------- MAILLAGE ---------- */
+function renderMail(){
+  if(!AU||!AU.score){g('view-mail').innerHTML='<div class="note">Onglet Maillage indisponible : aucun projet Site Audit Semrush n\'est associé à ce domaine dans le compte connecté. Créez un projet Site Audit dans Semrush pour l\'activer.</div>';return;}
+  const k=[["Score de santé",AU.score+"/100",AU.score>=80?"g":""],["Pages crawlées",fmt(AU.pages_crawled),""],
+    ["Pages 4xx",fmt(AU.errors_4xx.length),"r"],["Contrôles maillage OK",AU.internal_checks.filter(c=>c.count===0).length+"/"+AU.internal_checks.length,"g"]];
+  g("mailkpis").innerHTML=k.map(([l,v,c])=>`<div class="kpi"><div class="lbl">${l}</div><div class="val ${c}">${v}</div></div>`).join("");
+  g("mailok").innerHTML=`<b>Maillage interne sain.</b> Sur les ${AU.pages_crawled} pages crawlées (audit du ${AU.audit_date}) : aucune page orpheline, aucune page sous-maillée, aucun lien interne cassé, profondeur de clic maîtrisée. L'effort doit porter sur le netlinking et l'on-page.`;
+  g("checks").innerHTML=AU.internal_checks.map(c=>`<div class="check"><span class="ic ${c.count===0?'ok':'ko'}">${c.count===0?'✓':'!'}</span>${c.title}<span class="n">${c.count}</span></div>`).join("");
+  const max=Math.max(...AU.issues.map(i=>i.count));
+  g("issuebars").innerHTML=AU.issues.map(i=>`<div class="bar"><span class="lab"><span class="sev ${i.sev}"></span>${i.title}</span><div class="track"><div class="fill" style="width:${i.count/max*100}%;background:${i.sev==='error'?'var(--err)':i.sev==='warning'?'var(--warn)':'var(--notice)'}"></div></div><span class="v">${fmt(i.count)}</span></div>`).join("");
+  g("fourxx").innerHTML=`<tr><th>Page en erreur 4xx</th></tr>`+AU.errors_4xx.map(u=>`<tr><td><a href="${u}" target="_blank" rel="noopener">${shortUrl(u)}</a></td></tr>`).join("");
+}
+
+/* ---------- VIEW SWITCH ---------- */
+function setView(v){
+  view=v;["table","stats","prio","net","mail"].forEach(x=>{g("view-"+x).style.display=v===x?"":"none";g("tab-"+x).classList.toggle("active",v===x);});
+  g("kpis").style.display=(v==="table"||v==="stats")?"":"none";
+  g("note").style.display=(v==="table"&&noteHtml)?"block":"none";
+  if(v==="table")renderTable();else if(v==="stats")renderStats();else if(v==="prio")renderPrio();else if(v==="net")renderNet();else if(v==="mail")renderMail();
+}
+["table","stats","prio","net","mail"].forEach(v=>g("tab-"+v).onclick=()=>setView(v));
+["q","ftag","fstatus","fpos","fkd","fvol"].forEach(id=>g(id).addEventListener("input",()=>{rangeFilter=null;renderTable();}));
+g("ftag2").addEventListener("input",renderStats);
+g("pband").addEventListener("input",renderPrio);g("preco").addEventListener("input",renderPrio);
+g("export").addEventListener("click",()=>exportRows(sortRows(filtered(),sortKey,sortDir,cols),["Mot-cle","Volume","KD","Intention","Position","Evolution","Type","Tags","URL"],r=>[r.kw,r.vol,r.kd??"",r.intent,r.pos??"",r.diff??"",r.type||"",r.tags||"",r.url],"suivi_"+PROJECT_SLUG+".csv"));
+g("exportPrio").addEventListener("click",()=>exportRows(sortRows(prioData(),pSortKey,pSortDir,pcols),["Mot-cle","Position","Volume","KD","Backlinks_page","Domaines_ref","Score","Reco","URL"],r=>[r.kw,r.pos,r.vol,r.kd??"",r.bl,r.rd,r.score,r.reco,r.url],"priorites_"+PROJECT_SLUG+".csv"));
+
+let noteHtml="";
+function initTags(){const set=new Set();DATA.forEach(r=>tagList(r).forEach(t=>set.add(t)));
+  const opts=[...set].sort((a,b)=>a.localeCompare(b,"fr")).map(t=>`<option value="${t}">${t}</option>`).join("");
+  g("ftag").innerHTML='<option value="">Tous</option>'+opts;g("ftag2").innerHTML='<option value="">Tous les tags</option>'+opts;}
+function fetchJson(n){return fetch("./"+n+"?v="+Date.now()).then(r=>r.ok?r.json():null).catch(()=>null);}
+var EMBEDDED=[{"project": "Cheque-vacances.com", "generated": "2026-10-22 07:34 UTC", "source": "Semrush Position Tracking (export)", "period": "2026-10-21 - 2026-10-21", "compare_date": "", "count": 57, "ranked": 38, "rows": [{"kw": "agence nationale pour les chèques-vacances", "vol": 1000, "kd": 33, "intent": "Navigation", "cpc": 0.0, "pos": 1, "prev": 3, "diff": 2, "type": "ai overview", "tags": "", "url": "https://cheque-vacances.com/ancv/"}, {"kw": "ancv contact", "vol": 1300, "kd": 47, "intent": "Informationnel, Transactionnel", "cpc": 0.11, "pos": 1, "prev": 3, "diff": 2, "type": "ai overview", "tags": "", "url": "https://cheque-vacances.com/contactez-nous/"}, {"kw": "augmenter la visibilité de son site", "vol": 40, "kd": 28, "intent": "Informationnel", "cpc": 7.29, "pos": 1, "prev": 7, "diff": 6, "type": "ai overview", "tags": "", "url": "https://cheque-vacances.com/augmenter-visibilite-web/"}, {"kw": "changer cheques vacances connect en papier", "vol": 110, "kd": 22, "intent": "Informationnel", "cpc": 0.02, "pos": 1, "prev": 1, "diff": 0, "type": "Sitelinks", "tags": "", "url": "https://cheque-vacances.com/aide/beneficiaires/changer-format-connect-vers-classic/"}, {"kw": "changer cheques vacances papier en connect", "vol": 320, "kd": 22, "intent": "Informationnel", "cpc": 0.02, "pos": 1, "prev": 1, "diff": 0, "type": "Sitelinks", "tags": "", "url": "https://cheque-vacances.com/aide/beneficiaires/changer-format-classic-vers-connect/"}, {"kw": "cheque vacances fonctionnaire", "vol": 3600, "kd": 28, "intent": "Informationnel", "cpc": 0.86, "pos": 1, "prev": 2, "diff": 1, "type": "Organique", "tags": "", "url": "https://cheque-vacances.com/fonction-publique/obtenir-cheques-vacances/"}, {"kw": "cheques vacances", "vol": 14800, "kd": 59, "intent": "Informationnel", "cpc": 0.26, "pos": 1, "prev": 1, "diff": 0, "type": "Organique", "tags": "", "url": "https://cheque-vacances.com/"}, {"kw": "chèque-vacances ancv où les utiliser", "vol": 6600, "kd": 48, "intent": "Informationnel, Transactionnel", "cpc": 0.0, "pos": 1, "prev": 2, "diff": 1, "type": "ai overview", "tags": "", "url": "https://cheque-vacances.com/enseignes/"}, {"kw": "chèques vacances éducation nationale", "vol": 260, "kd": 0, "intent": "", "cpc": 0.57, "pos": 1, "prev": 2, "diff": 1, "type": "Organique", "tags": "", "url": "https://cheque-vacances.com/education-nationale-et-les-cheques-vacances/"}, {"kw": "chèques-vacances pour la fonction publique", "vol": 10, "kd": 25, "intent": "Informationnel", "cpc": 0.0, "pos": 1, "prev": 2, "diff": 1, "type": "ai overview", "tags": "", "url": "https://cheque-vacances.com/fonction-publique/"}, {"kw": "chèques-vacances pour les retraités de la fonction publique", "vol": 10, "kd": 26, "intent": "Informationnel", "cpc": 0.0, "pos": 1, "prev": 2, "diff": 1, "type": "ai overview", "tags": "", "url": "https://cheque-vacances.com/fonction-publique/"}, {"kw": "comment encaisser des chèques vacances", "vol": 90, "kd": 16, "intent": "Informationnel", "cpc": 0.0, "pos": 1, "prev": 1, "diff": 0, "type": "ai overview", "tags": "", "url": "https://cheque-vacances.com/aide-old/beneficiaires/"}, {"kw": "comment faire la promotion d'une destination touristique", "vol": 20, "kd": 14, "intent": "Informationnel", "cpc": 0.0, "pos": 1, "prev": 1, "diff": 0, "type": "Organique", "tags": "", "url": "https://cheque-vacances.com/comment-faire-la-promotion-destination-touristique/"}, {"kw": "idée jeu-concours interne entreprise", "vol": 30, "kd": 19, "intent": "Informationnel", "cpc": 0.0, "pos": 1, "prev": 2, "diff": 1, "type": "Organique", "tags": "", "url": "https://cheque-vacances.com/6-idees-de-jeu-concours-interne-pour-votre-entreprise/"}, {"kw": "profil consommateur", "vol": 50, "kd": 24, "intent": "Informationnel", "cpc": 0.0, "pos": 1, "prev": 5, "diff": 4, "type": "ai overview", "tags": "", "url": "https://cheque-vacances.com/profil-consommateur/"}, {"kw": "ancv coupons sports", "vol": 720, "kd": 0, "intent": "", "cpc": 0.04, "pos": 2, "prev": 2, "diff": 0, "type": "Organique", "tags": "", "url": "https://cheque-vacances.com/beneficiaires-loisirs-sportifs/"}, {"kw": "ancv mon compte", "vol": 18100, "kd": 32, "intent": "Informationnel, Navigation", "cpc": 0.16, "pos": 2, "prev": 1, "diff": -1, "type": "Organique", "tags": "", "url": "https://cheque-vacances.com/aide/beneficiaires/connexion-compte/"}, {"kw": "ancv pro", "vol": 1600, "kd": 37, "intent": "Informationnel", "cpc": 0.67, "pos": 2, "prev": 3, "diff": 1, "type": "Organique", "tags": "", "url": "https://cheque-vacances.com/professionnels-tourisme-loisirs/encaisser-le-connect/"}, {"kw": "cheque vacance aide", "vol": 20, "kd": 52, "intent": "Informationnel", "cpc": 0.0, "pos": 2, "prev": 4, "diff": 2, "type": "Organique", "tags": "", "url": "https://cheque-vacances.com/aide/"}, {"kw": "cheque vacances", "vol": 49500, "kd": 64, "intent": "Informationnel", "cpc": 0.26, "pos": 2, "prev": 1, "diff": -1, "type": "ai overview", "tags": "", "url": "https://cheque-vacances.com/enseignes/"}, {"kw": "cheque vacances entreprise", "vol": 110, "kd": 29, "intent": "Informationnel", "cpc": 0.88, "pos": 2, "prev": 3, "diff": 1, "type": "ai overview", "tags": "", "url": "https://cheque-vacances.com/aide/petites-entreprises/modalites-mise-en-place/"}, {"kw": "cheques vacances retraites fonction publique", "vol": 720, "kd": 0, "intent": "", "cpc": 0.47, "pos": 2, "prev": 2, "diff": 0, "type": "ai overview", "tags": "", "url": "https://cheque-vacances.com/fonction-publique/obtenir-cheques-vacances/"}, {"kw": "chèque vacances cse", "vol": 40, "kd": 17, "intent": "Informationnel", "cpc": 1.53, "pos": 2, "prev": 3, "diff": 1, "type": "ai overview", "tags": "", "url": "https://cheque-vacances.com/cse-cos-cas/"}, {"kw": "espace client ancv com", "vol": 210, "kd": 20, "intent": "Informationnel", "cpc": 0.16, "pos": 2, "prev": 3, "diff": 1, "type": "ai overview", "tags": "", "url": "https://cheque-vacances.com/aide/beneficiaires/connexion-compte/"}, {"kw": "fonction publique cheques vacances", "vol": 1000, "kd": 33, "intent": "Informationnel", "cpc": 1.28, "pos": 2, "prev": 2, "diff": 0, "type": "Organique", "tags": "", "url": "https://cheque-vacances.com/fonction-publique/obtenir-cheques-vacances/"}, {"kw": "échange chèques vacances", "vol": 90, "kd": 20, "intent": "Informationnel", "cpc": 0.03, "pos": 2, "prev": 2, "diff": 0, "type": "Organique", "tags": "", "url": "https://cheque-vacances.com/echanges/"}, {"kw": "payer en chèque vacances sur internet", "vol": 30, "kd": 0, "intent": "", "cpc": 0.13, "pos": 3, "prev": 1, "diff": -2, "type": "ai overview", "tags": "", "url": "https://cheque-vacances.com/enseignes/"}, {"kw": "saison touristique", "vol": 70, "kd": 26, "intent": "Informationnel", "cpc": 0.0, "pos": 4, "prev": 24, "diff": 20, "type": "Organique", "tags": "", "url": "https://cheque-vacances.com/reussir-sa-saison-touristique/"}, {"kw": "récompenses équipes", "vol": 10, "kd": 15, "intent": "Informationnel", "cpc": 0.0, "pos": 6, "prev": 100, "diff": 94, "type": "Organique", "tags": "", "url": "https://cheque-vacances.com/comment-recompenser-ses-salaries/"}, {"kw": "tunnel d'achat", "vol": 210, "kd": 19, "intent": "Transactionnel", "cpc": 0.0, "pos": 6, "prev": 5, "diff": -1, "type": "Organique", "tags": "", "url": "https://cheque-vacances.com/tunnel-achat/"}, {"kw": "vol cheque vacances", "vol": 140, "kd": 0, "intent": "", "cpc": 0.62, "pos": 9, "prev": 1, "diff": -8, "type": "Organique", "tags": "", "url": "https://cheque-vacances.com/aide-old/declaration-perte-vol/"}, {"kw": "cheque vacances liberal", "vol": 90, "kd": 0, "intent": "", "cpc": 0.84, "pos": 14, "prev": 3, "diff": -11, "type": "Organique", "tags": "", "url": "https://cheque-vacances.com/petites-entreprises/"}, {"kw": "saison estivale", "vol": 880, "kd": 0, "intent": "", "cpc": 0.0, "pos": 14, "prev": 100, "diff": 86, "type": "Organique", "tags": "", "url": "https://cheque-vacances.com/reussir-sa-saison-touristique/"}, {"kw": "chèques-vacances pour profession libérale", "vol": 10, "kd": 0, "intent": "", "cpc": 0.0, "pos": 15, "prev": 3, "diff": -12, "type": "Organique", "tags": "", "url": "https://cheque-vacances.com/petites-entreprises/"}, {"kw": "action de fidelisation", "vol": 110, "kd": 23, "intent": "Informationnel", "cpc": 1.79, "pos": 16, "prev": 10, "diff": -6, "type": "Organique", "tags": "", "url": "https://cheque-vacances.com/5-exemples-actions-de-fidelisation/"}, {"kw": "cse entreprise avantage", "vol": 50, "kd": 19, "intent": "Informationnel", "cpc": 1.07, "pos": 34, "prev": 100, "diff": 66, "type": "Organique", "tags": "", "url": "https://cheque-vacances.com/le-cse-un-avantage-en-entreprise/"}, {"kw": "optimisation fiscale entreprise", "vol": 320, "kd": 26, "intent": "Informationnel", "cpc": 2.43, "pos": 35, "prev": 100, "diff": 65, "type": "Organique", "tags": "", "url": "https://cheque-vacances.com/optimisation-fiscale-entreprise/"}, {"kw": "comment motiver ses salariés", "vol": 170, "kd": 22, "intent": "Informationnel", "cpc": 0.76, "pos": 43, "prev": 100, "diff": 57, "type": "Organique", "tags": "", "url": "https://cheque-vacances.com/comment-motiver-ses-salaries/"}, {"kw": "action rse", "vol": 390, "kd": 27, "intent": "Informationnel", "cpc": 0.96, "pos": null, "prev": null, "diff": null, "type": "", "tags": "", "url": ""}, {"kw": "action rse entreprise", "vol": 70, "kd": 24, "intent": "Informationnel", "cpc": 1.15, "pos": null, "prev": null, "diff": null, "type": "", "tags": "", "url": ""}, {"kw": "adapter son business", "vol": 30, "kd": 0, "intent": "", "cpc": 0.0, "pos": null, "prev": null, "diff": null, "type": "", "tags": "", "url": ""}, {"kw": "astuces pour payer moins de charges sociales", "vol": 30, "kd": 14, "intent": "Informationnel", "cpc": 0.0, "pos": null, "prev": null, "diff": null, "type": "", "tags": "", "url": ""}, {"kw": "augmenter visibilité en ligne", "vol": 30, "kd": 25, "intent": "Informationnel", "cpc": 0.0, "pos": null, "prev": null, "diff": null, "type": "", "tags": "", "url": ""}, {"kw": "boite a outils business", "vol": 70, "kd": 0, "intent": "", "cpc": 0.0, "pos": null, "prev": null, "diff": null, "type": "", "tags": "", "url": ""}, {"kw": "booster visibilité sur le web", "vol": 10, "kd": 0, "intent": "Informationnel", "cpc": 0.0, "pos": null, "prev": null, "diff": null, "type": "", "tags": "", "url": ""}, {"kw": "commander un chéquier", "vol": 170, "kd": 22, "intent": "Informationnel", "cpc": 2.27, "pos": null, "prev": null, "diff": null, "type": "", "tags": "", "url": ""}, {"kw": "comment maitriser sa e reputation", "vol": 30, "kd": 33, "intent": "Informationnel", "cpc": 0.0, "pos": null, "prev": null, "diff": null, "type": "", "tags": "", "url": ""}, {"kw": "fidélisation client", "vol": 1900, "kd": 39, "intent": "Informationnel", "cpc": 2.32, "pos": null, "prev": null, "diff": null, "type": "", "tags": "", "url": ""}, {"kw": "grand compte", "vol": 590, "kd": 13, "intent": "Informationnel", "cpc": 0.0, "pos": null, "prev": null, "diff": null, "type": "", "tags": "", "url": ""}, {"kw": "gérer comptabilité", "vol": 10, "kd": 22, "intent": "Informationnel", "cpc": 0.0, "pos": null, "prev": null, "diff": null, "type": "", "tags": "", "url": ""}, {"kw": "le marketing d'influence", "vol": 90, "kd": 40, "intent": "Navigation", "cpc": 0.0, "pos": null, "prev": null, "diff": null, "type": "", "tags": "", "url": ""}, {"kw": "meilleurs outils pour créer un site ou un blog", "vol": 20, "kd": 36, "intent": "Commercial", "cpc": 0.0, "pos": null, "prev": null, "diff": null, "type": "", "tags": "", "url": ""}, {"kw": "outil gestion réseaux sociaux", "vol": 260, "kd": 28, "intent": "Informationnel", "cpc": 2.92, "pos": null, "prev": null, "diff": null, "type": "", "tags": "", "url": ""}, {"kw": "projet solidaire", "vol": 110, "kd": 0, "intent": "", "cpc": 1.26, "pos": null, "prev": null, "diff": null, "type": "", "tags": "", "url": ""}, {"kw": "stratégie commerciale", "vol": 1600, "kd": 37, "intent": "Navigation", "cpc": 1.38, "pos": null, "prev": null, "diff": null, "type": "", "tags": "", "url": ""}, {"kw": "structure de santé", "vol": 20, "kd": 0, "intent": "", "cpc": 0.0, "pos": null, "prev": null, "diff": null, "type": "", "tags": "", "url": ""}, {"kw": "systeme de reservation en ligne", "vol": 170, "kd": 24, "intent": "Commercial", "cpc": 4.56, "pos": null, "prev": null, "diff": null, "type": "", "tags": "", "url": ""}]},{"generated": "2026-10-22 07:36 UTC", "domain": "cheque-vacances.com", "overview": {"cheque-vacances.com": {"ascore": 41, "backlinks": 35335, "refdomains": 3588, "follow": 33486, "nofollow": 1848}}, "historical": [{"date": "2025-08", "backlinks": 15588, "refdomains": 1289}, {"date": "2025-09", "backlinks": 15051, "refdomains": 1277}, {"date": "2025-10", "backlinks": 15848, "refdomains": 1340}, {"date": "2025-11", "backlinks": 17852, "refdomains": 1716}, {"date": "2025-12", "backlinks": 22635, "refdomains": 1731}, {"date": "2026-01", "backlinks": 22670, "refdomains": 1737}, {"date": "2026-02", "backlinks": 22772, "refdomains": 1689}, {"date": "2026-03", "backlinks": 22762, "refdomains": 1727}, {"date": "2026-04", "backlinks": 21978, "refdomains": 1745}, {"date": "2026-05", "backlinks": 21450, "refdomains": 1699}, {"date": "2026-06", "backlinks": 20592, "refdomains": 1519}, {"date": "2026-07", "backlinks": 24822, "refdomains": 1954}, {"date": "2026-08", "backlinks": 22516, "refdomains": 2043}, {"date": "2026-09", "backlinks": 23334, "refdomains": 2222}, {"date": "2026-10", "backlinks": 35516, "refdomains": 3624}], "refdomains": [{"domain": "yahoo.com", "ascore": 100, "backlinks": 4, "country": "us"}, {"domain": "service-public.gouv.fr", "ascore": 87, "backlinks": 4, "country": "fr"}, {"domain": "bfmtv.com", "ascore": 86, "backlinks": 5, "country": "us"}, {"domain": "20minutes.fr", "ascore": 82, "backlinks": 2, "country": "fr"}, {"domain": "caf.fr", "ascore": 81, "backlinks": 6, "country": "fr"}, {"domain": "franceinfo.fr", "ascore": 80, "backlinks": 1, "country": "tr"}, {"domain": "zendesk.com", "ascore": 79, "backlinks": 3, "country": "us"}, {"domain": "paris.fr", "ascore": 77, "backlinks": 1, "country": "us"}, {"domain": "seloger.com", "ascore": 77, "backlinks": 1, "country": "us"}, {"domain": "sncf-connect.com", "ascore": 77, "backlinks": 4, "country": ""}, {"domain": "actu.fr", "ascore": 76, "backlinks": 4, "country": ""}, {"domain": "airfrance.fr", "ascore": 76, "backlinks": 3, "country": "tr"}, {"domain": "rtl.fr", "ascore": 76, "backlinks": 2, "country": "us"}, {"domain": "tf1info.fr", "ascore": 76, "backlinks": 4, "country": "tr"}, {"domain": "economie.gouv.fr", "ascore": 74, "backlinks": 12, "country": ""}, {"domain": "sfr.fr", "ascore": 74, "backlinks": 1, "country": "fr"}, {"domain": "odoo.com", "ascore": 72, "backlinks": 1, "country": "fr"}, {"domain": "appbrain.com", "ascore": 70, "backlinks": 1, "country": ""}, {"domain": "letelegramme.fr", "ascore": 70, "backlinks": 1, "country": ""}, {"domain": "lavoixdunord.fr", "ascore": 68, "backlinks": 1, "country": "us"}, {"domain": "nicematin.com", "ascore": 68, "backlinks": 2, "country": "us"}, {"domain": "sncf.com", "ascore": 68, "backlinks": 5, "country": ""}, {"domain": "capital.fr", "ascore": 65, "backlinks": 1, "country": "at"}, {"domain": "lcl.fr", "ascore": 63, "backlinks": 1, "country": "fr"}, {"domain": "numerama.com", "ascore": 63, "backlinks": 1, "country": ""}, {"domain": "aide-sociale.fr", "ascore": 59, "backlinks": 3, "country": ""}, {"domain": "charentelibre.fr", "ascore": 58, "backlinks": 2, "country": "us"}, {"domain": "cnrs.fr", "ascore": 58, "backlinks": 3, "country": "fr"}, {"domain": "showroomprive.com", "ascore": 58, "backlinks": 62, "country": ""}, {"domain": "futuroscope.com", "ascore": 57, "backlinks": 3, "country": ""}], "anchors": [{"anchor": "<EmptyAnchor>", "domains": 48, "backlinks": 8795, "toxic": false}, {"anchor": "premium high da backlinks for cheque-vacances.com to increase trust flow. drive qualified visitors, with full placement reporting.", "domains": 100, "backlinks": 3260, "toxic": false}, {"anchor": "professional contextual link placements for cheques-vacances.com to raise domain rating. increase organic visibility, and grow your business online.", "domains": 100, "backlinks": 3259, "toxic": false}, {"anchor": "high quality dofollow link building for cheque-vacances-connect.com to raise domain rating. build lasting authority, across every niche and market.", "domains": 100, "backlinks": 3258, "toxic": false}, {"anchor": "chèque ancv connect ancv chèque-vacances", "domains": 2, "backlinks": 2528, "toxic": false}, {"anchor": "en savoir plus", "domains": 11, "backlinks": 1399, "toxic": false}, {"anchor": "ont également droit au chèque-vacances", "domains": 447, "backlinks": 1270, "toxic": false}, {"anchor": "en ligne, après la création d’un compte personnel", "domains": 412, "backlinks": 1191, "toxic": false}, {"anchor": "chèques-vacances : agent public —ministère chargé de l'économie", "domains": 404, "backlinks": 1177, "toxic": false}, {"anchor": "build powerful website authority with premium seo backlinks cheque-vacances-connect.com", "domains": 1067, "backlinks": 1071, "toxic": true}, {"anchor": "build strong seo authority with high quality links from cheque-vacances.com", "domains": 1056, "backlinks": 1060, "toxic": false}, {"anchor": "cheque-vacances.com", "domains": 153, "backlinks": 941, "toxic": false}, {"anchor": "cheque-vacances-connect.com", "domains": 289, "backlinks": 834, "toxic": false}, {"anchor": "ancv connect", "domains": 11, "backlinks": 602, "toxic": false}, {"anchor": "get higher rankings with expert seo backlinks cheques-vacances.com", "domains": 517, "backlinks": 524, "toxic": true}, {"anchor": "cheque-vacances-connect", "domains": 104, "backlinks": 466, "toxic": false}, {"anchor": "ancv classic", "domains": 1, "backlinks": 325, "toxic": false}, {"anchor": "backlinks for cheque-vacances.com", "domains": 234, "backlinks": 277, "toxic": false}, {"anchor": "chèque vacances acceptés", "domains": 2, "backlinks": 209, "toxic": false}, {"anchor": "a a", "domains": 1, "backlinks": 206, "toxic": false}, {"anchor": "cheques-vacances.com", "domains": 100, "backlinks": 174, "toxic": false}, {"anchor": "high quality dofollow backlinks da 50 pa 40 premium pbn network service cheque-vacances-connect.com rank first page google fast seo link building buy backlinks online cheap", "domains": 94, "backlinks": 165, "toxic": false}, {"anchor": "high quality dofollow backlinks da 50 pa 40 premium pbn network service cheque-vacances.com rank first page google fast seo link building buy backlinks online cheap", "domains": 94, "backlinks": 165, "toxic": false}, {"anchor": "high quality dofollow backlinks da 50 pa 40 premium pbn network service cheques-vacances.com rank first page google fast seo link building buy backlinks online cheap", "domains": 90, "backlinks": 161, "toxic": false}, {"anchor": "telegram @seo_anomaly - seo backlinks, black-links, traffic boost, link indexing", "domains": 10, "backlinks": 99, "toxic": true}], "toxic_backlinks": 1694, "pages": {"https://cheque-vacances.com/aide": {"bl": 8655, "rd": 151}, "https://cheque-vacances.com/aide/beneficiaires/phishing": {"bl": 5776, "rd": 20}, "https://cheque-vacances.com": {"bl": 5699, "rd": 1346}, "https://cheque-vacances.com/produits": {"bl": 128, "rd": 24}, "https://cheque-vacances.com/professionnels-tourisme-loisirs": {"bl": 119, "rd": 37}, "https://cheque-vacances.com/enseignes": {"bl": 109, "rd": 16}, "https://cheque-vacances.com/aide/payer-en-cheque-vacances-connect": {"bl": 104, "rd": 3}, "https://cheque-vacances.com/fonction-publique/obtenir-cheques-vacances": {"bl": 76, "rd": 40}, "https://cheque-vacances.com/beneficiaires-loisirs-sportifs": {"bl": 68, "rd": 5}, "https://cheque-vacances.com/aide/changer-format-classic-vers-connect": {"bl": 46, "rd": 39}, "http://cheque-vacances.com": {"bl": 42, "rd": 25}, "https://cheque-vacances.com/cse-cos-cas": {"bl": 33, "rd": 9}, "https://cheque-vacances.com/petites-entreprises": {"bl": 33, "rd": 15}, "https://cheque-vacances.com/aide/beneficiaires": {"bl": 28, "rd": 7}, "https://www.cheque-vacances.com": {"bl": 26, "rd": 7}, "https://cheque-vacances.com/echanges": {"bl": 25, "rd": 11}, "https://cheque-vacances.com/ptl-loisirs-sportifs": {"bl": 24, "rd": 1}, "https://cheque-vacances.com/clients-loisirs-sportifs": {"bl": 22, "rd": 1}, "https://cheque-vacances.com/aide/beneficiaires/changer-format-classic-vers-connect": {"bl": 21, "rd": 11}, "https://cheque-vacances.com/echanger-des-cheques-perimes": {"bl": 21, "rd": 15}, "https://cheque-vacances.com/professionnels-tourisme-loisirs/encaisser-le-connect": {"bl": 20, "rd": 9}, "https://cheque-vacances.com/subvention-tpe-ptl": {"bl": 20, "rd": 11}, "https://cheque-vacances.com/aide/gestion-compte/activer-premiere-dotation": {"bl": 10, "rd": 3}, "https://cheque-vacances.com/contactez-nous": {"bl": 9, "rd": 8}, "https://cheque-vacances.com/aide-old/changer-format-classic-vers-connect": {"bl": 7, "rd": 4}, "https://cheque-vacances.com/mentions-legales": {"bl": 7, "rd": 1}, "https://cheque-vacances.com/declarations-cookies": {"bl": 6, "rd": 1}, "https://cheque-vacances.com/documents": {"bl": 6, "rd": 3}, "https://cheque-vacances.com/petites-entreprises/simulateur": {"bl": 6, "rd": 5}, "https://cheque-vacances.com/aide/gestion-compte/activer-nouvelle-dotation": {"bl": 5, "rd": 2}, "https://cheque-vacances.com/professionnels-tourisme-loisirs/devenir-partenaire": {"bl": 5, "rd": 4}, "http://www.cheque-vacances.com": {"bl": 4, "rd": 2}, "https://cheque-vacances.com/aide/gestion-compte/application": {"bl": 4, "rd": 1}, "https://cheque-vacances.com/cse-cos-cas/commandes": {"bl": 4, "rd": 2}, "https://cheque-vacances.com/objectif-vacances": {"bl": 4, "rd": 2}, "https://www.cheque-vacances.com/beneficiaires-loisirs-sportifs": {"bl": 4, "rd": 1}, "https://cheque-vacances.com/aide-old/payer-en-cheque-vacances-connect": {"bl": 3, "rd": 2}, "https://cheque-vacances.com/aide/declaration-perte-vol": {"bl": 3, "rd": 3}, "https://cheque-vacances.com/aide/questions-frequentes": {"bl": 3, "rd": 1}, "https://www.cheque-vacances.com/simulateur": {"bl": 3, "rd": 2}, "https://cheque-vacances.com/aide/beneficiaires/code-paiement": {"bl": 2, "rd": 2}, "https://cheque-vacances.com/aide/changer-format-connect-vers-classic": {"bl": 2, "rd": 2}, "https://cheque-vacances.com/aide/gestion-compte": {"bl": 2, "rd": 1}, "https://cheque-vacances.com/aide/professionnels-tourisme-loisirs/particulier-loueur-cheques-vacances": {"bl": 2, "rd": 1}, "https://www.cheque-vacances.com/pe/employeurs": {"bl": 2, "rd": 1}, "https://www.cheque-vacances.com/pe/les-secteurs-dactivites": {"bl": 2, "rd": 1}, "https://cheque-vacances.com/ancv": {"bl": 1, "rd": 1}, "https://cheque-vacances.com/augmenter-visbilite-web": {"bl": 1, "rd": 1}, "https://cheque-vacances.com/contactez-nous-ancv": {"bl": 1, "rd": 1}, "https://cheque-vacances.com/cse-cos-cas/modes-attribution": {"bl": 1, "rd": 1}, "https://cheque-vacances.com/fideliser-clients-long-terme": {"bl": 1, "rd": 1}, "https://www.cheque-vacances.com/decouvrez-le-dispositif": {"bl": 1, "rd": 1}, "https://www.cheque-vacances.com/petites-entreprises": {"bl": 1, "rd": 1}}},{"generated": "2026-10-22 07:36 UTC", "domain": "cheque-vacances.com", "audit_date": "2026-10-21", "score": 70, "pages_crawled": 246, "internal_checks": [{"id": 213, "title": "Pages avec un seul lien interne", "count": 85}, {"id": 212, "title": "Profondeur de clic > 3", "count": 9}, {"id": 8, "title": "Liens internes cassés", "count": 11}, {"id": 108, "title": "Trop de liens sur la page", "count": 0}, {"id": 123, "title": "Liens internes en nofollow", "count": 0}, {"id": 207, "title": "Pages orphelines (sitemap)", "count": 127}, {"id": 206, "title": "Pages orphelines (Analytics)", "count": 0}], "issues": [{"title": "Liens sans texte d'ancre", "count": 6720, "sev": "notice"}, {"title": "Fichiers JS/CSS non minifiés", "count": 1116, "sev": "warning"}, {"title": "Redirections permanentes (301)", "count": 378, "sev": "notice"}, {"title": "Liens externes en nofollow", "count": 193, "sev": "notice"}, {"title": "Liens externes en 403", "count": 189, "sev": "notice"}, {"title": "Données structurées avec erreurs", "count": 184, "sev": "error"}, {"title": "Ratio texte/HTML faible", "count": 183, "sev": "warning"}, {"title": "Trop de fichiers JS/CSS", "count": 71, "sev": "warning"}, {"title": "Titles dupliqués", "count": 28, "sev": "error"}, {"title": "Liens à ancre non descriptive", "count": 26, "sev": "notice"}, {"title": "Liens externes cassés", "count": 25, "sev": "warning"}, {"title": "Meta descriptions dupliquées", "count": 24, "sev": "error"}, {"title": "Contenu dupliqué", "count": 22, "sev": "error"}, {"title": "Ressources formatées en liens de page", "count": 11, "sev": "notice"}, {"title": "Pages en erreur 4xx", "count": 7, "sev": "error"}, {"title": "Pages incorrectes dans le sitemap", "count": 7, "sev": "error"}, {"title": "H1 dupliqué (identique au title)", "count": 6, "sev": "warning"}, {"title": "Meta description manquante", "count": 6, "sev": "warning"}, {"title": "Title trop long", "count": 5, "sev": "warning"}, {"title": "H1 multiples", "count": 5, "sev": "notice"}, {"title": "Attributs ALT manquants", "count": 3, "sev": "warning"}, {"title": "H1 manquant", "count": 1, "sev": "warning"}, {"title": "Langue non déclarée", "count": 1, "sev": "warning"}, {"title": "Contenu trop léger (word count)", "count": 1, "sev": "warning"}, {"title": "Sitemap absent du robots.txt", "count": 1, "sev": "warning"}, {"title": "llms.txt absent", "count": 1, "sev": "notice"}], "errors_4xx": ["https://cheque-vacances.com/aide/petites-entreprises/modifier-e-mail-ou-telephone-collaborateur/", "https://cheque-vacances.com/aide/gestion-compte/activer-premiere-dotation/", "https://cheque-vacances.com/aide/gestion-compte/activer-nouvelle-dotation/", "https://cheque-vacances.com/aide/cse-cos-cas/objectif-vacances/", "https://cheque-vacances.com/aide/beneficiaires/mauvais-numero-telephone/", "https://cheque-vacances.com/aide/beneficiaires/comment-avoir-cheques-vacances/", "https://cheque-vacances.com/aide-old/gestion-compte/compte-et-application/"]}];
+function loadAll(){return EMBEDDED?Promise.resolve(EMBEDDED):Promise.all([fetchJson("data.json"),fetchJson("netlinking.json"),fetchJson("audit.json")]);}
+
+loadAll().then(([p,nl,au])=>{
+  DATA=p.rows||[];NL=nl||{};AU=au||{};if(p.project){PROJECT_SLUG=p.project.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"")||"cockpit";var _t="Cockpit SEO — "+p.project;g("h1").textContent=_t;document.title=_t;}
+  PAGEBL={};Object.entries((NL.pages)||{}).forEach(([u,o])=>{PAGEBL[normUrl(u)]=o;});
+  const per=p.period?(" · relevé "+p.period.split(" - ")[0]):"";
+  g("sub").innerHTML=`Suivi de position · Netlinking · Maillage · Semrush · Google France${per}`;
+  if(p.ranked!=null&&p.ranked<(p.count||0))noteHtml=`<b>${p.ranked}/${p.count} mots-clés positionnés</b> dans le top 100 · « n/p » = hors top 100 · Données : export du Suivi de position Semrush.`;
+  g("note").innerHTML=noteHtml;
+  initTags();setView("table");
+}).catch(e=>{g("count").textContent="Erreur de chargement : "+e;});
+</script>
+</body>
+</html>

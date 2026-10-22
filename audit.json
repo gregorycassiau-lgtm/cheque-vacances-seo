@@ -1,0 +1,185 @@
+{
+ "generated": "2026-10-22 07:36 UTC",
+ "domain": "cheque-vacances.com",
+ "audit_date": "2026-10-21",
+ "score": 70,
+ "pages_crawled": 246,
+ "internal_checks": [
+  {
+   "id": 213,
+   "title": "Pages avec un seul lien interne",
+   "count": 85
+  },
+  {
+   "id": 212,
+   "title": "Profondeur de clic > 3",
+   "count": 9
+  },
+  {
+   "id": 8,
+   "title": "Liens internes cassés",
+   "count": 11
+  },
+  {
+   "id": 108,
+   "title": "Trop de liens sur la page",
+   "count": 0
+  },
+  {
+   "id": 123,
+   "title": "Liens internes en nofollow",
+   "count": 0
+  },
+  {
+   "id": 207,
+   "title": "Pages orphelines (sitemap)",
+   "count": 127
+  },
+  {
+   "id": 206,
+   "title": "Pages orphelines (Analytics)",
+   "count": 0
+  }
+ ],
+ "issues": [
+  {
+   "title": "Liens sans texte d'ancre",
+   "count": 6720,
+   "sev": "notice"
+  },
+  {
+   "title": "Fichiers JS/CSS non minifiés",
+   "count": 1116,
+   "sev": "warning"
+  },
+  {
+   "title": "Redirections permanentes (301)",
+   "count": 378,
+   "sev": "notice"
+  },
+  {
+   "title": "Liens externes en nofollow",
+   "count": 193,
+   "sev": "notice"
+  },
+  {
+   "title": "Liens externes en 403",
+   "count": 189,
+   "sev": "notice"
+  },
+  {
+   "title": "Données structurées avec erreurs",
+   "count": 184,
+   "sev": "error"
+  },
+  {
+   "title": "Ratio texte/HTML faible",
+   "count": 183,
+   "sev": "warning"
+  },
+  {
+   "title": "Trop de fichiers JS/CSS",
+   "count": 71,
+   "sev": "warning"
+  },
+  {
+   "title": "Titles dupliqués",
+   "count": 28,
+   "sev": "error"
+  },
+  {
+   "title": "Liens à ancre non descriptive",
+   "count": 26,
+   "sev": "notice"
+  },
+  {
+   "title": "Liens externes cassés",
+   "count": 25,
+   "sev": "warning"
+  },
+  {
+   "title": "Meta descriptions dupliquées",
+   "count": 24,
+   "sev": "error"
+  },
+  {
+   "title": "Contenu dupliqué",
+   "count": 22,
+   "sev": "error"
+  },
+  {
+   "title": "Ressources formatées en liens de page",
+   "count": 11,
+   "sev": "notice"
+  },
+  {
+   "title": "Pages en erreur 4xx",
+   "count": 7,
+   "sev": "error"
+  },
+  {
+   "title": "Pages incorrectes dans le sitemap",
+   "count": 7,
+   "sev": "error"
+  },
+  {
+   "title": "H1 dupliqué (identique au title)",
+   "count": 6,
+   "sev": "warning"
+  },
+  {
+   "title": "Meta description manquante",
+   "count": 6,
+   "sev": "warning"
+  },
+  {
+   "title": "Title trop long",
+   "count": 5,
+   "sev": "warning"
+  },
+  {
+   "title": "H1 multiples",
+   "count": 5,
+   "sev": "notice"
+  },
+  {
+   "title": "Attributs ALT manquants",
+   "count": 3,
+   "sev": "warning"
+  },
+  {
+   "title": "H1 manquant",
+   "count": 1,
+   "sev": "warning"
+  },
+  {
+   "title": "Langue non déclarée",
+   "count": 1,
+   "sev": "warning"
+  },
+  {
+   "title": "Contenu trop léger (word count)",
+   "count": 1,
+   "sev": "warning"
+  },
+  {
+   "title": "Sitemap absent du robots.txt",
+   "count": 1,
+   "sev": "warning"
+  },
+  {
+   "title": "llms.txt absent",
+   "count": 1,
+   "sev": "notice"
+  }
+ ],
+ "errors_4xx": [
+  "https://cheque-vacances.com/aide/petites-entreprises/modifier-e-mail-ou-telephone-collaborateur/",
+  "https://cheque-vacances.com/aide/gestion-compte/activer-premiere-dotation/",
+  "https://cheque-vacances.com/aide/gestion-compte/activer-nouvelle-dotation/",
+  "https://cheque-vacances.com/aide/cse-cos-cas/objectif-vacances/",
+  "https://cheque-vacances.com/aide/beneficiaires/mauvais-numero-telephone/",
+  "https://cheque-vacances.com/aide/beneficiaires/comment-avoir-cheques-vacances/",
+  "https://cheque-vacances.com/aide-old/gestion-compte/compte-et-application/"
+ ]
+}

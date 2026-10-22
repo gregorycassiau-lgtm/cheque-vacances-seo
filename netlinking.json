@@ -1,0 +1,639 @@
+{
+ "generated": "2026-10-22 07:36 UTC",
+ "domain": "cheque-vacances.com",
+ "overview": {
+  "cheque-vacances.com": {
+   "ascore": 41,
+   "backlinks": 35335,
+   "refdomains": 3588,
+   "follow": 33486,
+   "nofollow": 1848
+  }
+ },
+ "historical": [
+  {
+   "date": "2025-08",
+   "backlinks": 15588,
+   "refdomains": 1289
+  },
+  {
+   "date": "2025-09",
+   "backlinks": 15051,
+   "refdomains": 1277
+  },
+  {
+   "date": "2025-10",
+   "backlinks": 15848,
+   "refdomains": 1340
+  },
+  {
+   "date": "2025-11",
+   "backlinks": 17852,
+   "refdomains": 1716
+  },
+  {
+   "date": "2025-12",
+   "backlinks": 22635,
+   "refdomains": 1731
+  },
+  {
+   "date": "2026-01",
+   "backlinks": 22670,
+   "refdomains": 1737
+  },
+  {
+   "date": "2026-02",
+   "backlinks": 22772,
+   "refdomains": 1689
+  },
+  {
+   "date": "2026-03",
+   "backlinks": 22762,
+   "refdomains": 1727
+  },
+  {
+   "date": "2026-04",
+   "backlinks": 21978,
+   "refdomains": 1745
+  },
+  {
+   "date": "2026-05",
+   "backlinks": 21450,
+   "refdomains": 1699
+  },
+  {
+   "date": "2026-06",
+   "backlinks": 20592,
+   "refdomains": 1519
+  },
+  {
+   "date": "2026-07",
+   "backlinks": 24822,
+   "refdomains": 1954
+  },
+  {
+   "date": "2026-08",
+   "backlinks": 22516,
+   "refdomains": 2043
+  },
+  {
+   "date": "2026-09",
+   "backlinks": 23334,
+   "refdomains": 2222
+  },
+  {
+   "date": "2026-10",
+   "backlinks": 35516,
+   "refdomains": 3624
+  }
+ ],
+ "refdomains": [
+  {
+   "domain": "yahoo.com",
+   "ascore": 100,
+   "backlinks": 4,
+   "country": "us"
+  },
+  {
+   "domain": "service-public.gouv.fr",
+   "ascore": 87,
+   "backlinks": 4,
+   "country": "fr"
+  },
+  {
+   "domain": "bfmtv.com",
+   "ascore": 86,
+   "backlinks": 5,
+   "country": "us"
+  },
+  {
+   "domain": "20minutes.fr",
+   "ascore": 82,
+   "backlinks": 2,
+   "country": "fr"
+  },
+  {
+   "domain": "caf.fr",
+   "ascore": 81,
+   "backlinks": 6,
+   "country": "fr"
+  },
+  {
+   "domain": "franceinfo.fr",
+   "ascore": 80,
+   "backlinks": 1,
+   "country": "tr"
+  },
+  {
+   "domain": "zendesk.com",
+   "ascore": 79,
+   "backlinks": 3,
+   "country": "us"
+  },
+  {
+   "domain": "paris.fr",
+   "ascore": 77,
+   "backlinks": 1,
+   "country": "us"
+  },
+  {
+   "domain": "seloger.com",
+   "ascore": 77,
+   "backlinks": 1,
+   "country": "us"
+  },
+  {
+   "domain": "sncf-connect.com",
+   "ascore": 77,
+   "backlinks": 4,
+   "country": ""
+  },
+  {
+   "domain": "actu.fr",
+   "ascore": 76,
+   "backlinks": 4,
+   "country": ""
+  },
+  {
+   "domain": "airfrance.fr",
+   "ascore": 76,
+   "backlinks": 3,
+   "country": "tr"
+  },
+  {
+   "domain": "rtl.fr",
+   "ascore": 76,
+   "backlinks": 2,
+   "country": "us"
+  },
+  {
+   "domain": "tf1info.fr",
+   "ascore": 76,
+   "backlinks": 4,
+   "country": "tr"
+  },
+  {
+   "domain": "economie.gouv.fr",
+   "ascore": 74,
+   "backlinks": 12,
+   "country": ""
+  },
+  {
+   "domain": "sfr.fr",
+   "ascore": 74,
+   "backlinks": 1,
+   "country": "fr"
+  },
+  {
+   "domain": "odoo.com",
+   "ascore": 72,
+   "backlinks": 1,
+   "country": "fr"
+  },
+  {
+   "domain": "appbrain.com",
+   "ascore": 70,
+   "backlinks": 1,
+   "country": ""
+  },
+  {
+   "domain": "letelegramme.fr",
+   "ascore": 70,
+   "backlinks": 1,
+   "country": ""
+  },
+  {
+   "domain": "lavoixdunord.fr",
+   "ascore": 68,
+   "backlinks": 1,
+   "country": "us"
+  },
+  {
+   "domain": "nicematin.com",
+   "ascore": 68,
+   "backlinks": 2,
+   "country": "us"
+  },
+  {
+   "domain": "sncf.com",
+   "ascore": 68,
+   "backlinks": 5,
+   "country": ""
+  },
+  {
+   "domain": "capital.fr",
+   "ascore": 65,
+   "backlinks": 1,
+   "country": "at"
+  },
+  {
+   "domain": "lcl.fr",
+   "ascore": 63,
+   "backlinks": 1,
+   "country": "fr"
+  },
+  {
+   "domain": "numerama.com",
+   "ascore": 63,
+   "backlinks": 1,
+   "country": ""
+  },
+  {
+   "domain": "aide-sociale.fr",
+   "ascore": 59,
+   "backlinks": 3,
+   "country": ""
+  },
+  {
+   "domain": "charentelibre.fr",
+   "ascore": 58,
+   "backlinks": 2,
+   "country": "us"
+  },
+  {
+   "domain": "cnrs.fr",
+   "ascore": 58,
+   "backlinks": 3,
+   "country": "fr"
+  },
+  {
+   "domain": "showroomprive.com",
+   "ascore": 58,
+   "backlinks": 62,
+   "country": ""
+  },
+  {
+   "domain": "futuroscope.com",
+   "ascore": 57,
+   "backlinks": 3,
+   "country": ""
+  }
+ ],
+ "anchors": [
+  {
+   "anchor": "<EmptyAnchor>",
+   "domains": 48,
+   "backlinks": 8795,
+   "toxic": false
+  },
+  {
+   "anchor": "premium high da backlinks for cheque-vacances.com to increase trust flow. drive qualified visitors, with full placement reporting.",
+   "domains": 100,
+   "backlinks": 3260,
+   "toxic": false
+  },
+  {
+   "anchor": "professional contextual link placements for cheques-vacances.com to raise domain rating. increase organic visibility, and grow your business online.",
+   "domains": 100,
+   "backlinks": 3259,
+   "toxic": false
+  },
+  {
+   "anchor": "high quality dofollow link building for cheque-vacances-connect.com to raise domain rating. build lasting authority, across every niche and market.",
+   "domains": 100,
+   "backlinks": 3258,
+   "toxic": false
+  },
+  {
+   "anchor": "chèque ancv connect ancv chèque-vacances",
+   "domains": 2,
+   "backlinks": 2528,
+   "toxic": false
+  },
+  {
+   "anchor": "en savoir plus",
+   "domains": 11,
+   "backlinks": 1399,
+   "toxic": false
+  },
+  {
+   "anchor": "ont également droit au chèque-vacances",
+   "domains": 447,
+   "backlinks": 1270,
+   "toxic": false
+  },
+  {
+   "anchor": "en ligne, après la création d’un compte personnel",
+   "domains": 412,
+   "backlinks": 1191,
+   "toxic": false
+  },
+  {
+   "anchor": "chèques-vacances : agent public —ministère chargé de l'économie",
+   "domains": 404,
+   "backlinks": 1177,
+   "toxic": false
+  },
+  {
+   "anchor": "build powerful website authority with premium seo backlinks cheque-vacances-connect.com",
+   "domains": 1067,
+   "backlinks": 1071,
+   "toxic": true
+  },
+  {
+   "anchor": "build strong seo authority with high quality links from cheque-vacances.com",
+   "domains": 1056,
+   "backlinks": 1060,
+   "toxic": false
+  },
+  {
+   "anchor": "cheque-vacances.com",
+   "domains": 153,
+   "backlinks": 941,
+   "toxic": false
+  },
+  {
+   "anchor": "cheque-vacances-connect.com",
+   "domains": 289,
+   "backlinks": 834,
+   "toxic": false
+  },
+  {
+   "anchor": "ancv connect",
+   "domains": 11,
+   "backlinks": 602,
+   "toxic": false
+  },
+  {
+   "anchor": "get higher rankings with expert seo backlinks cheques-vacances.com",
+   "domains": 517,
+   "backlinks": 524,
+   "toxic": true
+  },
+  {
+   "anchor": "cheque-vacances-connect",
+   "domains": 104,
+   "backlinks": 466,
+   "toxic": false
+  },
+  {
+   "anchor": "ancv classic",
+   "domains": 1,
+   "backlinks": 325,
+   "toxic": false
+  },
+  {
+   "anchor": "backlinks for cheque-vacances.com",
+   "domains": 234,
+   "backlinks": 277,
+   "toxic": false
+  },
+  {
+   "anchor": "chèque vacances acceptés",
+   "domains": 2,
+   "backlinks": 209,
+   "toxic": false
+  },
+  {
+   "anchor": "a a",
+   "domains": 1,
+   "backlinks": 206,
+   "toxic": false
+  },
+  {
+   "anchor": "cheques-vacances.com",
+   "domains": 100,
+   "backlinks": 174,
+   "toxic": false
+  },
+  {
+   "anchor": "high quality dofollow backlinks da 50 pa 40 premium pbn network service cheque-vacances-connect.com rank first page google fast seo link building buy backlinks online cheap",
+   "domains": 94,
+   "backlinks": 165,
+   "toxic": false
+  },
+  {
+   "anchor": "high quality dofollow backlinks da 50 pa 40 premium pbn network service cheque-vacances.com rank first page google fast seo link building buy backlinks online cheap",
+   "domains": 94,
+   "backlinks": 165,
+   "toxic": false
+  },
+  {
+   "anchor": "high quality dofollow backlinks da 50 pa 40 premium pbn network service cheques-vacances.com rank first page google fast seo link building buy backlinks online cheap",
+   "domains": 90,
+   "backlinks": 161,
+   "toxic": false
+  },
+  {
+   "anchor": "telegram @seo_anomaly - seo backlinks, black-links, traffic boost, link indexing",
+   "domains": 10,
+   "backlinks": 99,
+   "toxic": true
+  }
+ ],
+ "toxic_backlinks": 1694,
+ "pages": {
+  "https://cheque-vacances.com/aide": {
+   "bl": 8655,
+   "rd": 151
+  },
+  "https://cheque-vacances.com/aide/beneficiaires/phishing": {
+   "bl": 5776,
+   "rd": 20
+  },
+  "https://cheque-vacances.com": {
+   "bl": 5699,
+   "rd": 1346
+  },
+  "https://cheque-vacances.com/produits": {
+   "bl": 128,
+   "rd": 24
+  },
+  "https://cheque-vacances.com/professionnels-tourisme-loisirs": {
+   "bl": 119,
+   "rd": 37
+  },
+  "https://cheque-vacances.com/enseignes": {
+   "bl": 109,
+   "rd": 16
+  },
+  "https://cheque-vacances.com/aide/payer-en-cheque-vacances-connect": {
+   "bl": 104,
+   "rd": 3
+  },
+  "https://cheque-vacances.com/fonction-publique/obtenir-cheques-vacances": {
+   "bl": 76,
+   "rd": 40
+  },
+  "https://cheque-vacances.com/beneficiaires-loisirs-sportifs": {
+   "bl": 68,
+   "rd": 5
+  },
+  "https://cheque-vacances.com/aide/changer-format-classic-vers-connect": {
+   "bl": 46,
+   "rd": 39
+  },
+  "http://cheque-vacances.com": {
+   "bl": 42,
+   "rd": 25
+  },
+  "https://cheque-vacances.com/cse-cos-cas": {
+   "bl": 33,
+   "rd": 9
+  },
+  "https://cheque-vacances.com/petites-entreprises": {
+   "bl": 33,
+   "rd": 15
+  },
+  "https://cheque-vacances.com/aide/beneficiaires": {
+   "bl": 28,
+   "rd": 7
+  },
+  "https://www.cheque-vacances.com": {
+   "bl": 26,
+   "rd": 7
+  },
+  "https://cheque-vacances.com/echanges": {
+   "bl": 25,
+   "rd": 11
+  },
+  "https://cheque-vacances.com/ptl-loisirs-sportifs": {
+   "bl": 24,
+   "rd": 1
+  },
+  "https://cheque-vacances.com/clients-loisirs-sportifs": {
+   "bl": 22,
+   "rd": 1
+  },
+  "https://cheque-vacances.com/aide/beneficiaires/changer-format-classic-vers-connect": {
+   "bl": 21,
+   "rd": 11
+  },
+  "https://cheque-vacances.com/echanger-des-cheques-perimes": {
+   "bl": 21,
+   "rd": 15
+  },
+  "https://cheque-vacances.com/professionnels-tourisme-loisirs/encaisser-le-connect": {
+   "bl": 20,
+   "rd": 9
+  },
+  "https://cheque-vacances.com/subvention-tpe-ptl": {
+   "bl": 20,
+   "rd": 11
+  },
+  "https://cheque-vacances.com/aide/gestion-compte/activer-premiere-dotation": {
+   "bl": 10,
+   "rd": 3
+  },
+  "https://cheque-vacances.com/contactez-nous": {
+   "bl": 9,
+   "rd": 8
+  },
+  "https://cheque-vacances.com/aide-old/changer-format-classic-vers-connect": {
+   "bl": 7,
+   "rd": 4
+  },
+  "https://cheque-vacances.com/mentions-legales": {
+   "bl": 7,
+   "rd": 1
+  },
+  "https://cheque-vacances.com/declarations-cookies": {
+   "bl": 6,
+   "rd": 1
+  },
+  "https://cheque-vacances.com/documents": {
+   "bl": 6,
+   "rd": 3
+  },
+  "https://cheque-vacances.com/petites-entreprises/simulateur": {
+   "bl": 6,
+   "rd": 5
+  },
+  "https://cheque-vacances.com/aide/gestion-compte/activer-nouvelle-dotation": {
+   "bl": 5,
+   "rd": 2
+  },
+  "https://cheque-vacances.com/professionnels-tourisme-loisirs/devenir-partenaire": {
+   "bl": 5,
+   "rd": 4
+  },
+  "http://www.cheque-vacances.com": {
+   "bl": 4,
+   "rd": 2
+  },
+  "https://cheque-vacances.com/aide/gestion-compte/application": {
+   "bl": 4,
+   "rd": 1
+  },
+  "https://cheque-vacances.com/cse-cos-cas/commandes": {
+   "bl": 4,
+   "rd": 2
+  },
+  "https://cheque-vacances.com/objectif-vacances": {
+   "bl": 4,
+   "rd": 2
+  },
+  "https://www.cheque-vacances.com/beneficiaires-loisirs-sportifs": {
+   "bl": 4,
+   "rd": 1
+  },
+  "https://cheque-vacances.com/aide-old/payer-en-cheque-vacances-connect": {
+   "bl": 3,
+   "rd": 2
+  },
+  "https://cheque-vacances.com/aide/declaration-perte-vol": {
+   "bl": 3,
+   "rd": 3
+  },
+  "https://cheque-vacances.com/aide/questions-frequentes": {
+   "bl": 3,
+   "rd": 1
+  },
+  "https://www.cheque-vacances.com/simulateur": {
+   "bl": 3,
+   "rd": 2
+  },
+  "https://cheque-vacances.com/aide/beneficiaires/code-paiement": {
+   "bl": 2,
+   "rd": 2
+  },
+  "https://cheque-vacances.com/aide/changer-format-connect-vers-classic": {
+   "bl": 2,
+   "rd": 2
+  },
+  "https://cheque-vacances.com/aide/gestion-compte": {
+   "bl": 2,
+   "rd": 1
+  },
+  "https://cheque-vacances.com/aide/professionnels-tourisme-loisirs/particulier-loueur-cheques-vacances": {
+   "bl": 2,
+   "rd": 1
+  },
+  "https://www.cheque-vacances.com/pe/employeurs": {
+   "bl": 2,
+   "rd": 1
+  },
+  "https://www.cheque-vacances.com/pe/les-secteurs-dactivites": {
+   "bl": 2,
+   "rd": 1
+  },
+  "https://cheque-vacances.com/ancv": {
+   "bl": 1,
+   "rd": 1
+  },
+  "https://cheque-vacances.com/augmenter-visbilite-web": {
+   "bl": 1,
+   "rd": 1
+  },
+  "https://cheque-vacances.com/contactez-nous-ancv": {
+   "bl": 1,
+   "rd": 1
+  },
+  "https://cheque-vacances.com/cse-cos-cas/modes-attribution": {
+   "bl": 1,
+   "rd": 1
+  },
+  "https://cheque-vacances.com/fideliser-clients-long-terme": {
+   "bl": 1,
+   "rd": 1
+  },
+  "https://www.cheque-vacances.com/decouvrez-le-dispositif": {
+   "bl": 1,
+   "rd": 1
+  },
+  "https://www.cheque-vacances.com/petites-entreprises": {
+   "bl": 1,
+   "rd": 1
+  }
+ }
+}
